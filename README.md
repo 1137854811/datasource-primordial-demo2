@@ -1,5 +1,3 @@
-# SpringBoot 多数据源切换（二）（依旧超级简单）
-
 ### 背景：主从架构下，数据库的读写分离
 
 ##### 1. 依赖
@@ -289,9 +287,34 @@ public class DataSourceAspect {
 >
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/57be6c9b29a5447c9a96bfeea617920a.png)
 
-### 完成～～～
-
-# 为什么配置了三个数据源
+### 完成～～～ 源码: [gitee](https://gitee.com/TZWw/datasource-primordial-demo2) [github](https://github.com/1137854811/datasource-primordial-demo2)
 
 
-> 是Tz ，想把我遇到的问题都分享给你，想看更多精彩内容，请关注我的wx公众号zhuangtian
+># 注： 为什么配置了三个数据源，是为了展示我在做的过程中遇到的一个问题
+
+> 1) 刚开始我是按照网上查到的方式注册数据源
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/da319c652fbf4b388c1ea1b1a9e39a6f.png)
+
+
+>2) 这样做，在全部数据源都注入的时候没有问题，当我在配置中心停掉其中一个数据源时就会出现问题
+>
+![在这里插入图片描述](https://img-blog.csdnimg.cn/1f729b80db364612abccfa0de8fa690b.png)
+>3)问题(在masterDataSource添加@Primary又会出现其他的错误)
+
+```java
+Parameter 1 of method dataSource in com.example.datasourceprimordialdemo2.datasource.config.DynamicDataSourceConfig required a single bean, but 2 were found:
+	- masterDataSource: defined by method 'masterDataSource' in class path resource [com/example/datasourceprimordialdemo2/datasource/config/DynamicDataSourceConfig.class]
+	- slave2DataSource: defined by method 'slave2DataSource' in class path resource [com/example/datasourceprimordialdemo2/datasource/config/DynamicDataSourceConfig.class]
+Action:
+Consider marking one of the beans as @Primary, updating the consumer to accept multiple beans, or using @Qualifier to identify the bean that should be consumed
+```
+![在这里插入图片描述](https://img-blog.csdnimg.cn/a8b39baf0e284e82972c7ec85aed16b8.png)
+>4.解决办法（此方式只针对我代码的解决办法，可能会有其他问题导致 此报错，请再寻找其他方法）
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/d8a8158ae2f04c2c9e5fc8a514e2b7bf.png)
+>5. 大佬们如果有其他方式请在评论区告知，万分感谢
+
+
+
+> 我是Tz ，想把我遇到的问题都分享给你，想看更多精彩内容，请关注我的wx公众号zhuangtian
